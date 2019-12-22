@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'ui/home_page.dart';
+import 'package:gif_seacher/ui/home_page.dart';
 
 void main() => runApp(MyApp());
 

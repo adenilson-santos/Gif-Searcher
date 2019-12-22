@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gif_seacher/ui/gif_show_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:share/share.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -110,11 +113,23 @@ class _HomePageState extends State<HomePage> {
       itemBuilder: (context, index) {
         if(_search == null || _search.isEmpty) {
           return GestureDetector(
-            child: Image.network(
-              snapshot.data['data'][index]['images']['fixed_height']['url'],
+            onLongPress: () {
+              Share.share(snapshot.data['data'][index]['images']['fixed_height']['url']);
+            },
+            child: FadeInImage.memoryNetwork(
+              placeholder: kTransparentImage,
+              image: snapshot.data['data'][index]['images']['fixed_height']['url'],
               height: 300.0,
               fit: BoxFit.cover,
-            )
+            ),
+            onTap: () {
+              return Navigator.push(
+                context, 
+                MaterialPageRoute(
+                  builder: (context) => GifShowPage(snapshot.data['data'][index])
+                )
+              );
+            },
           );
         } else {
           if(index == _limit) {
@@ -135,11 +150,23 @@ class _HomePageState extends State<HomePage> {
             );
           } else {
             return GestureDetector(
-              child: Image.network(
-                snapshot.data['data'][index]['images']['fixed_height']['url'],
+              onLongPress: () {
+                Share.share(snapshot.data['data'][index]['images']['fixed_height']['url']);
+              },
+              child: FadeInImage.memoryNetwork(
+                placeholder: kTransparentImage,
+                image: snapshot.data['data'][index]['images']['fixed_height']['url'],
                 height: 300.0,
                 fit: BoxFit.cover,
-              )
+              ),
+              onTap: () {
+                return Navigator.push(
+                  context, 
+                  MaterialPageRoute(
+                    builder: (context) => GifShowPage(snapshot.data['data'][index])
+                  )
+                );
+              },
             );
           }
         }
