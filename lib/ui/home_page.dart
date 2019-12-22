@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     http.Response response;
     _limit = _limitDefault;
 
-    if(_search == null) {
+    if(_search == null || _search.isEmpty) {
       _limit = _limitDefault;
       response = await http.get('https://api.giphy.com/v1/gifs/trending?api_key=QB7WvjnEE7fNW1UMXDGmLkbftsQlpnMF&$_limit=20&rating=G');
     } else {
@@ -69,6 +69,7 @@ class _HomePageState extends State<HomePage> {
               onSubmitted: (text) {
                 setState(() {
                   _search = text;
+                  _offset = 0;
                 });
               },
             ),
@@ -107,7 +108,7 @@ class _HomePageState extends State<HomePage> {
       ),
       itemCount: _limitDefault,
       itemBuilder: (context, index) {
-        if(_search == null) {
+        if(_search == null || _search.isEmpty) {
           return GestureDetector(
             child: Image.network(
               snapshot.data['data'][index]['images']['fixed_height']['url'],
